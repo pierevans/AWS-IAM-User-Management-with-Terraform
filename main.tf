@@ -37,17 +37,17 @@ resource "aws_iam_group" "managers" {
 }
 
 resource "aws_iam_group_membership" "education_members" {
-  name   = "education-group-membership"
+  name  = "education-group-membership"
   group = aws_iam_group.education.name
-  users  = [for user in aws_iam_users : user.name if user.tags.department == "Education"]
+  users = [for user in aws_iam_users : user.name if user.tags.department == "Education"]
 }
 resource "aws_iam_group_membership" "engineers_members" {
-  name   = "engineers-group-membership"
+  name  = "engineers-group-membership"
   group = aws_iam_group.engineers.name
-  users  = [for user in aws_iam_users : user.name if user.tags.department == "Engineers"]
+  users = [for user in aws_iam_users : user.name if user.tags.department == "Engineers"]
 }
 resource "aws_iam_group_membership" "managers_members" {
-  name   = "managers-group-membership"
+  name  = "managers-group-membership"
   group = aws_iam_group.managers.name
-  users  = [for user in aws_iam_users : user.name if user.tags.department == "Managers"]
+  users = [for user in aws_iam_users : user.name if contains(keys(user.tags), "JobTitle") && can(regex("Manager | CEO", user.tags.jobTitle))]
 }

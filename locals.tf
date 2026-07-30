@@ -1,3 +1,3 @@
 locals {
-  users  = csvdecode(file(users.csv))
+  users  = csvdecode(file("users.csv"))
 }
